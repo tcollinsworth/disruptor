@@ -1,5 +1,5 @@
 from disruptor.work_item_abst import WorkItemAbst
-from tests.work_item_mock import WorkItemMock
+from work_item_mock import WorkItemMock
 import pytest
 
 def test_abstract():
