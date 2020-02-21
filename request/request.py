@@ -1,17 +1,7 @@
 from threading import Condition
 
 class Request:
-    """Encapsulates the request data and blocks the request thread waiting for the response to be asynchronously computed.
-
-    Flask Request
-
-        https://flask.palletsprojects.com/en/1.1.x/reqcontext/
-        When a Flask application begins handling a request, it pushes a request context, which also pushes an The Application Context. 
-        When the request ends it pops the request context then the application context.
-        The context is unique to each thread (or other worker type). 
-        The request cannot be passed to another thread, the other thread will have a different context stack and 
-        will not know about the request the parent thread was pointing to.
-        Context locals are implemented in Werkzeug. See Context Locals for more information on how this works internally.
+    """Encapsulates the request data and blocks the request thread, making it wait for the response to be asynchronously computed.
     """
 
     def __init__(self):

@@ -2,11 +2,17 @@
 class Disruptor(object):
     """
        All work MUST be acquired and retired in sequential order, never out-of-order.
+
+       request1                                   compute/transform1--response1
+                \                               /
+       request2--+--buffer--compute/transform--+--compute/transform2--response2
+                /                               \
+       request3                                   compute/transform3--response3
     """
 
-    def __init__(self):
-        self.__ringbuffer_size = 100
-        self.__batch_size = 10
+    def __init__(self, ringBufferSize=100, batchSize=10):
+        self.__ringbuffer_size = ringBufferSize
+        self.__batch_size = batchSize
 
         self.__next_write_index = 0
         self.__next_read_index = 0
