@@ -1,38 +1,27 @@
-from vector import ReqStruct
 import pytest
-# from ctypes import byref, cast, POINTER
-import ctypes
+from ctypes import Structure, c_float, POINTER, pointer, byref, cast
+
+class DIMENSION(Structure):
+    _fields_ = [("d", c_float * 2)]
+
+class ReqStruct(Structure):
+    _fields_ = [("vector", DIMENSION)]
 
 def test_struct():
-    v = ReqStruct()
-    # for d in v:
-    #     print(d)
-    v.vector[0] = 0.1234
-    # print(f'*** {v.vector[0]}')
-    assert v.vector[0] == 0.1234000027179718
+    r = ReqStruct()
+    r.vector.d[0] = 0.1234
+    r.vector.d[1] = 0.234
+    assert r.vector.d[0] == 0.1234000027179718
+    assert r.vector.d[1] == 0.23399999737739563
 
-    x = ReqStruct
+    ptr = byref(r)
 
-    x = ctypes.byref(v) # this is correct
-    print(f'byref: {x}')
+    r1 = cast(ptr, POINTER(ReqStruct)).contents
+    assert r.vector.d[0] == r1.vector.d[0]
 
-    # v2 = ctypes.cast(x, ctypes.POINTER(ReqStruct))
-    ReqStructType = ctypes.POINTER(ReqStruct)
-    v2 = ReqStructType.from_param(ctypes.pointer(v)).contents
-    v3 = ReqStructType.from_param(x)
-    v4 = ctypes.cast(x, ReqStructType).contents
-    # v2 = ctypes.POINTER(ReqStruct).from_param(x)
-    # print(ctypes.pointer(v))
-    print(f'type(v) {type(v)}')
-    print(f'type(x) {type(x)}')
-    print(f'type(v2) {type(v2)}')
-    print(f'type(v3) {type(v3)}')
-    print(f'type(v4) {type(v4)}')
-    print(f'v {v}')
-    print(f'x {x}')
-    print(f'v2 {v2.vector[0]}')
-    # print(f'v3 {v3.vector[0]}')
-    print(f'v4 {v4.vector[0]}')
+    ReqStructType = POINTER(ReqStruct)
+    r2 = ReqStructType.from_param(pointer(r)).contents
+    assert r.vector.d[0] == r2.vector.d[0]
 
-    assert v.vector[0] == v2.vector[0]
-    assert v.vector[0] == v4.vector[0]
+    r3 = cast(ptr, ReqStructType).contents
+    assert r.vector.d[0] == r3.vector.d[0]
