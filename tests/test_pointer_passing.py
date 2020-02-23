@@ -7,6 +7,8 @@ class DIMENSION(Structure):
 class ReqStruct(Structure):
     _fields_ = [("vector", DIMENSION)]
 
+# broken, not same instance in other process
+
 def test_struct():
     r = ReqStruct()
     r.vector.d[0] = 0.1234
