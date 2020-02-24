@@ -36,6 +36,7 @@ def mutate_np_array(ITEM_CNT, VECTOR_DIMENSIONS):
     a1[1] = [3,4]
     a1[2] = [5,6]
     print(a1)
+    assert a1[2][1] == 6
 
 def test_share():
     global shm
@@ -57,3 +58,4 @@ def test_share():
     # time.sleep(1) # Sleep for n seconds
     p1.join()
     print(a)
+    assert a[2][1] == 6
