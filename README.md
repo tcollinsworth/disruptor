@@ -1,5 +1,7 @@
 # Disruptor like library in python
 
+Requires python 3.8
+
 WIP
 
 # Testing
